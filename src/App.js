@@ -9,7 +9,29 @@ class App extends Component {
             method: "operations/list",
             input: '{ "fs": "/tmp", "remote": "", "opt":{} }',
             output: 'RPC output goes here',
+            help: [{
+                Help: "list",
+                Path: "operations/list",
+                Title:" list",
+            }],
+            helpByPath: {},
         };
+        this.getHelp();
+    }
+    getHelp() {
+        rpc("rc/list", {}).then(response => {
+            var byPath = {};
+            response.commands.forEach(x => {
+                byPath[x.Path] = x.Help;
+            });
+            this.setState({
+                help: response.commands,
+                helpByPath: byPath,
+            });
+            this.setMethod("operations/list");
+        }).catch(error => {
+            console.log("failed to read rc/help", error);
+        });
     }
     doRPC() {
         console.log("doRPC");
@@ -37,11 +59,18 @@ class App extends Component {
             });
         });
     }
+    setMethod(method) {
+        this.setState({
+            method: method,
+            output: this.state.helpByPath[method],
+        });
+    }
     render() {
+        var methods = this.state.help.map(v => <option value={v.Path} key={v.Path}>{v.Path}: {v.Title}</option>);
         return (
             <div className="App">
-              <input type="text" value={this.state.method}  onChange={(event) => this.setState({method: event.target.value})} />
-              <textarea rows="4" cols="50" value={this.state.input} onChange={(event) => this.setState({input: event.target.value})}></textarea>
+              <select onChange={(event) => this.setMethod(event.target.value)}>{ methods }</select>
+              <textarea rows="10" cols="50" value={this.state.input} onChange={(event) => this.setState({input: event.target.value})}></textarea>
               <button onClick={() => this.doRPC()}>Run</button>
               <pre>{this.state.output}</pre>
             </div>
