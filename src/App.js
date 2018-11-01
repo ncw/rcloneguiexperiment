@@ -15,6 +15,7 @@ class App extends Component {
                 Title:" list",
             }],
             helpByPath: {},
+            failed: false,
         };
         this.getHelp();
     }
@@ -51,11 +52,13 @@ class App extends Component {
             console.log("success", result);
             this.setState({
                 output: result,
+                failed: false,
             });
         }).catch(error => {
             var result = JSON.stringify(error, null, 4);
             this.setState({
                 output: "FAILED: " + result,
+                failed: true,
             });
         });
     }
@@ -63,6 +66,7 @@ class App extends Component {
         this.setState({
             method: method,
             output: this.state.helpByPath[method],
+            failed: false,
         });
     }
     render() {
@@ -72,7 +76,7 @@ class App extends Component {
               <select onChange={(event) => this.setMethod(event.target.value)}>{ methods }</select>
               <textarea rows="10" cols="50" value={this.state.input} onChange={(event) => this.setState({input: event.target.value})}></textarea>
               <button onClick={() => this.doRPC()}>Run</button>
-              <pre>{this.state.output}</pre>
+              <pre className={ this.state.failed ? "failed" : ""}>{this.state.output}</pre>
             </div>
         );
     }
