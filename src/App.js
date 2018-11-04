@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { rpc } from './rclone.js';
+import { rclone } from './rclone.js';
 
 class App extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class App extends Component {
         this.getHelp();
     }
     getHelp() {
-        rpc("rc/list", {}).then(response => {
+        rclone.rpc("rc/list", {}).then(response => {
             var byPath = {};
             response.commands.forEach(x => {
                 byPath[x.Path] = x.Help;
@@ -47,7 +47,7 @@ class App extends Component {
         }
         console.log(this.state.method);
         console.log(input);
-        rpc(this.state.method, input).then(response => {
+        rclone.rpc(this.state.method, input).then(response => {
             var result = JSON.stringify(response, null, 4);
             console.log("success", result);
             this.setState({
