@@ -1,0 +1,13 @@
+Menuing.
+
+Could use
+
+https://github.com/react-bootstrap/react-bootstrap/
+
+Have Navbar across the top.
+
+Window shows either a file browse list or a settings page or something like that.
+
+Could split the window.
+
+https://react-bootstrap.netlify.com/
