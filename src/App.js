@@ -17,6 +17,8 @@ class App extends Component {
       helpByPath: {},
       failed: false,
     };
+  }
+  componentDidMount() {
     this.getHelp();
   }
   getHelp() {
