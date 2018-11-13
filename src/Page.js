@@ -6,6 +6,8 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import App from './App';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 class Page extends Component {
   constructor(props) {
@@ -16,16 +18,16 @@ class Page extends Component {
   }
   render() {
     return (
-      <>
+      <Router><>
         <Navbar bg="light" expand="lg">
           <Navbar.Brand href="#home">Rclone</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
+              <LinkContainer to="/"><Nav.Link href="/">Home</Nav.Link></LinkContainer>
               <Nav.Link href="#link">Link</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <LinkContainer to="/test/"><NavDropdown.Item>Test</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                 <NavDropdown.Divider />
@@ -35,9 +37,10 @@ class Page extends Component {
           </Navbar.Collapse>
         </Navbar>
         <div id="Page.main">
-          <App />
+          {/* <Route path="/" exact component={Index} /> */}
+          <Route path="/test/" exact component={App} />
         </div>
-      </>
+      </></Router>
     );
   }
 }
